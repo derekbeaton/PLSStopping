@@ -47,6 +47,13 @@ dat.X1_3 <- cbind(
 ) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])
 
 
+dat.X2_4 <- cbind(	
+	res$ExPosition.Data$pdq$p[,2],
+	0,
+	res$ExPosition.Data$pdq$p[,4]
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])
+
+
 
 
 	# ## between data and itself
@@ -69,16 +76,24 @@ dat.X1_3 <- cbind(
 # perm.between.res <- perm.between.comps(dat.X,dat.X3,F,F,eigs=XX3.res$eigs)
 # perm.within.res <- perm.within.comps(dat.X,dat.X3,F,F,eigs=XX3.res$eigs)
 
-XX1_3.res <- simple.pls(dat.X,dat.X1_3)	
-#prettyScree(XX1_3.res$eigs)
-bs.res <- broken.stick(XX1_3.res$eigs)
-k.res <- kaiser(XX1_3.res$eigs)
-boot.res <- boot.comps(dat.X,dat.X1_3,F,F,eigs=XX1_3.res$eigs)
-perm.between.res <- perm.between.comps(dat.X,dat.X1_3,F,F,eigs=XX1_3.res$eigs)
-perm.within.res <- perm.within.comps(dat.X,dat.X1_3,F,F,eigs=XX1_3.res$eigs)
+# XX1_3.res <- simple.pls(dat.X,dat.X1_3)	
+# #prettyScree(XX1_3.res$eigs)
+# bs.res <- broken.stick(XX1_3.res$eigs)
+# k.res <- kaiser(XX1_3.res$eigs)
+# boot.res <- boot.comps(dat.X,dat.X1_3,F,F,eigs=XX1_3.res$eigs)
+# perm.between.res <- perm.between.comps(dat.X,dat.X1_3,F,F,eigs=XX1_3.res$eigs)
+# perm.within.res <- perm.within.comps(dat.X,dat.X1_3,F,F,eigs=XX1_3.res$eigs)
 
 
-
-
+	## this PLS completely breaks which is good because they are completely orthogonal structures.
+X2_4.X1_3.res <- simple.pls(dat.X2_4,dat.X1_3)	
+#prettyScree(X2_4.X1_3.res$eigs)
+#bs.res <- broken.stick(X2_4.X1_3.res$eigs)
+#k.res <- kaiser(X2_4.X1_3.res$eigs)
+	## However, the bootstrap *does not break*, which is bad.
+	#### this reflects a condition where in we shouldn't bother testing, but we can still get a result from inference
+boot.res <- boot.comps(dat.X2_4,dat.X1_3,F,F,eigs=NA)
+#perm.between.res <- perm.between.comps(dat.X2_4,dat.X1_3,F,F,eigs=X2_4.X1_3.res$eigs)
+#perm.within.res <- perm.within.comps(dat.X2_4,dat.X1_3,F,F,eigs=X2_4.X1_3.res$eigs)
 
 

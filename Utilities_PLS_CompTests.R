@@ -63,7 +63,7 @@ boot.comps <- function(X,Y,center=T,scale=T,eigs=NA,k=0,iters=100){
 	 setTxtProgressBar(pb, i)	
 	}
 		## rudimentary p values to estimate how often each eigenvalue is above its respective mean
-	boot.ps <- colSums(boot.eigs < matrix(rowMeans(boot.eigs),iters,ncol(boot.eigs),byrow=F)) / iters
+	boot.ps <- colSums(boot.eigs < matrix(rowMeans(boot.eigs,na.rm=T),iters,ncol(boot.eigs),byrow=F)) / iters
 		## we can do eigenvalue bootstrap ratio tests, too...
 	if(!is.na(eigs)){
 		boot.bsrs <- (eigs - colMeans(boot.eigs)) / apply(boot.eigs,2,sd)
