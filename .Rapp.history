@@ -1,0 +1,1049 @@
+dat.X_scale
+colMeans(dat.X^2)
+attributes(dat.X)$`scaled:scale`
+colMeans(dat.X^2) / attributes(dat.X)$`scaled:scale`
+attributes(dat.X)$`scaled:scale` / colMeans(dat.X^2)
+colSums(dat.X^2)
+colSums(dat.X1^2)
+colMeans(dat.X^2)
+attributes(dat.X)$`scaled:scale`
+colSums( (dat.X * 37) ^2)
+colSums( (dat.X / 37) ^2)
+1/colSums( (dat.X / 37) ^2)
+colMeans(dat.X^2)
+1/colMeans(dat.X^2)
+beer.tasting.notes$data[,1]
+dumb.vec <- beer.tasting.notes$data[,1]
+mean(dumb.vec)
+sd(dumb.vec)
+(dumb.vec - mean(dumb.vec)) / sd(dumb.vec)
+scale(dumb.vec)
+((dumb.vec - mean(dumb.vec)) / sd(dumb.vec)) / scale(dumb.vec)
+scale(dumb.vec)
+sum(scale(dumb.vec)^2)
+((dumb.vec - mean(dumb.vec)) / sd(dumb.vec)) / scale(dumb.vec)
+scale(dumb.vec) * (length(dumb.vec)-1)
+sum( (scale(dumb.vec) * (length(dumb.vec)-1)) ^2)
+sqrt(sum( (scale(dumb.vec) * (length(dumb.vec)-1)) ^2))
+sum( (scale(dumb.vec) * (length(dumb.vec)-1)) )
+sum( abs((scale(dumb.vec) * (length(dumb.vec)-1))) )
+library(ExPosition)#
+data(beer.tasting.notes)#
+#
+## This is a good example of exactly 1 component.#
+dat.X <- expo.scale(beer.tasting.notes$data)#
+dat.X_center <- matrix(attributes(dat.X)$`scaled:center`,nrow(dat.X),ncol(dat.X),byrow=T)#
+dat.X_scale <- matrix(attributes(dat.X)$`scaled:scale`,nrow(dat.X),ncol(dat.X),byrow=T)#
+dat.X_recon <- dat.X * dat.X_scale + dat.X_center#
+res <- epPCA(dat.X,F,F,graphs=F)#
+## Now reconstruct dat.X with exactly 1 underlying source component, but put it in different places with the same (fake) singular values#
+dat.X1 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,1],#
+	0,#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+dat.X1_recon <- dat.X1 * dat.X_scale + dat.X_center#
+expo.scale(dat.X1_recon) / dat.X1
+dat.X1
+expo.scale(dat.X1_recon) / dat.X1
+expo.scale(dat.X1_recon) - dat.X1
+expo.scale(dat.X1_recon) / dat.X1
+sh1 <- sample(nrow(X), floor(nrow(X)/2), replace=F )
+sh1 <- sample(nrow(dat.X), floor(nrow(dat.X)/2), replace=F )
+sh1
+1:nrow(dat.X) %in% sh1
+which(1:nrow(dat.X) %in% sh1)
+which(!(1:nrow(dat.X) %in% sh1))
+sh1 <- sort(sample(nrow(X), floor(nrow(X)/2), replace=F ))
+sh1 <- sort(sample(nrow(dat.X), floor(nrow(dat.X)/2), replace=F ))
+setdiff(1:nrow(dat.X),sh1)
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(beer.tasting.notes)#
+#
+## This is a good example of exactly 1 component.#
+dat.X <- expo.scale(beer.tasting.notes$data)#
+# dat.X_center <- matrix(attributes(dat.X)$`scaled:center`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_scale <- matrix(attributes(dat.X)$`scaled:scale`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_recon <- dat.X * dat.X_scale + dat.X_center#
+res <- epPCA(dat.X,F,F,graphs=F)#
+## Now reconstruct dat.X with exactly 1 underlying source component, but put it in different places with the same (fake) singular values#
+dat.X1 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,1],#
+	0,#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+# dat.X1_recon <- dat.X1 * dat.X_scale + dat.X_center#
+# expo.scale(dat.X1_recon) / dat.X1#
+#
+dat.X2 <- cbind(	#
+	0,#
+	res$ExPosition.Data$pdq$p[,1],#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X2_recon <- dat.X2 * dat.X_scale + dat.X_center#
+#expo.scale(dat.X2_recon) / dat.X2#
+#
+dat.X3 <- cbind(	#
+	0,#
+	0,#
+	res$ExPosition.Data$pdq$p[,1]#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X3_recon <- dat.X3 * dat.X_scale + dat.X_center#
+XX.res <- simple.pls(dat.X,dat.X)#
+#prettyScree(XX.res$eigs)#
+#
+bs.res <- broken.stick(XX.res$eigs)#
+k.res <- kaiser(XX.res$eigs)
+ls()
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(beer.tasting.notes)#
+#
+## This is a good example of exactly 1 component.#
+dat.X <- expo.scale(beer.tasting.notes$data)#
+# dat.X_center <- matrix(attributes(dat.X)$`scaled:center`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_scale <- matrix(attributes(dat.X)$`scaled:scale`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_recon <- dat.X * dat.X_scale + dat.X_center#
+res <- epPCA(dat.X,F,F,graphs=F)#
+## Now reconstruct dat.X with exactly 1 underlying source component, but put it in different places with the same (fake) singular values#
+dat.X1 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,1],#
+	0,#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+# dat.X1_recon <- dat.X1 * dat.X_scale + dat.X_center#
+# expo.scale(dat.X1_recon) / dat.X1#
+#
+dat.X2 <- cbind(	#
+	0,#
+	res$ExPosition.Data$pdq$p[,1],#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X2_recon <- dat.X2 * dat.X_scale + dat.X_center#
+#expo.scale(dat.X2_recon) / dat.X2#
+#
+dat.X3 <- cbind(	#
+	0,#
+	0,#
+	res$ExPosition.Data$pdq$p[,1]#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X3_recon <- dat.X3 * dat.X_scale + dat.X_center#
+XX.res <- simple.pls(dat.X,dat.X)#
+#prettyScree(XX.res$eigs)#
+#
+bs.res <- broken.stick(XX.res$eigs)#
+k.res <- kaiser(XX.res$eigs)
+ls()
+boot.res <- boot.comps(dat.X,dat.X,F,F,eigs=XX.res$eigs)
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(beer.tasting.notes)#
+#
+## This is a good example of exactly 1 component.#
+dat.X <- expo.scale(beer.tasting.notes$data)#
+# dat.X_center <- matrix(attributes(dat.X)$`scaled:center`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_scale <- matrix(attributes(dat.X)$`scaled:scale`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_recon <- dat.X * dat.X_scale + dat.X_center#
+res <- epPCA(dat.X,F,F,graphs=F)#
+## Now reconstruct dat.X with exactly 1 underlying source component, but put it in different places with the same (fake) singular values#
+dat.X1 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,1],#
+	0,#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+# dat.X1_recon <- dat.X1 * dat.X_scale + dat.X_center#
+# expo.scale(dat.X1_recon) / dat.X1#
+#
+dat.X2 <- cbind(	#
+	0,#
+	res$ExPosition.Data$pdq$p[,1],#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X2_recon <- dat.X2 * dat.X_scale + dat.X_center#
+#expo.scale(dat.X2_recon) / dat.X2#
+#
+dat.X3 <- cbind(	#
+	0,#
+	0,#
+	res$ExPosition.Data$pdq$p[,1]#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X3_recon <- dat.X3 * dat.X_scale + dat.X_center#
+XX.res <- simple.pls(dat.X,dat.X)#
+#prettyScree(XX.res$eigs)#
+#
+bs.res <- broken.stick(XX.res$eigs)#
+k.res <- kaiser(XX.res$eigs)#
+boot.res <- boot.comps(dat.X,dat.X,F,F,eigs=XX.res$eigs)
+boot.res
+colMeans(boot.res$boot.eigs) / apply(boot.res$boot.eigs,2,sd)
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(beer.tasting.notes)#
+#
+## This is a good example of exactly 1 component.#
+dat.X <- expo.scale(beer.tasting.notes$data)#
+# dat.X_center <- matrix(attributes(dat.X)$`scaled:center`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_scale <- matrix(attributes(dat.X)$`scaled:scale`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_recon <- dat.X * dat.X_scale + dat.X_center#
+res <- epPCA(dat.X,F,F,graphs=F)#
+## Now reconstruct dat.X with exactly 1 underlying source component, but put it in different places with the same (fake) singular values#
+dat.X1 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,1],#
+	0,#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+# dat.X1_recon <- dat.X1 * dat.X_scale + dat.X_center#
+# expo.scale(dat.X1_recon) / dat.X1#
+#
+dat.X2 <- cbind(	#
+	0,#
+	res$ExPosition.Data$pdq$p[,1],#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X2_recon <- dat.X2 * dat.X_scale + dat.X_center#
+#expo.scale(dat.X2_recon) / dat.X2#
+#
+dat.X3 <- cbind(	#
+	0,#
+	0,#
+	res$ExPosition.Data$pdq$p[,1]#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X3_recon <- dat.X3 * dat.X_scale + dat.X_center#
+XX.res <- simple.pls(dat.X,dat.X)#
+#prettyScree(XX.res$eigs)#
+#
+bs.res <- broken.stick(XX.res$eigs)#
+k.res <- kaiser(XX.res$eigs)#
+boot.res <- boot.comps(dat.X,dat.X,F,F,eigs=XX.res$eigs)
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(beer.tasting.notes)
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(beer.tasting.notes)#
+#
+## This is a good example of exactly 1 component.#
+dat.X <- expo.scale(beer.tasting.notes$data)#
+# dat.X_center <- matrix(attributes(dat.X)$`scaled:center`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_scale <- matrix(attributes(dat.X)$`scaled:scale`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_recon <- dat.X * dat.X_scale + dat.X_center#
+res <- epPCA(dat.X,F,F,graphs=F)#
+## Now reconstruct dat.X with exactly 1 underlying source component, but put it in different places with the same (fake) singular values#
+dat.X1 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,1],#
+	0,#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+# dat.X1_recon <- dat.X1 * dat.X_scale + dat.X_center#
+# expo.scale(dat.X1_recon) / dat.X1#
+#
+dat.X2 <- cbind(	#
+	0,#
+	res$ExPosition.Data$pdq$p[,1],#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X2_recon <- dat.X2 * dat.X_scale + dat.X_center#
+#expo.scale(dat.X2_recon) / dat.X2#
+#
+dat.X3 <- cbind(	#
+	0,#
+	0,#
+	res$ExPosition.Data$pdq$p[,1]#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X3_recon <- dat.X3 * dat.X_scale + dat.X_center#
+XX.res <- simple.pls(dat.X,dat.X)#
+#prettyScree(XX.res$eigs)#
+#
+bs.res <- broken.stick(XX.res$eigs)#
+k.res <- kaiser(XX.res$eigs)#
+boot.res <- boot.comps(dat.X,dat.X,F,F,eigs=XX.res$eigs)
+perm.between.res <- perm.between.comps(dat.X,dat.X,F,F,eigs=XX.res$eigs)
+perm.between.res
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(beer.tasting.notes)#
+#
+## This is a good example of exactly 1 component.#
+dat.X <- expo.scale(beer.tasting.notes$data)#
+# dat.X_center <- matrix(attributes(dat.X)$`scaled:center`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_scale <- matrix(attributes(dat.X)$`scaled:scale`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_recon <- dat.X * dat.X_scale + dat.X_center#
+res <- epPCA(dat.X,F,F,graphs=F)#
+## Now reconstruct dat.X with exactly 1 underlying source component, but put it in different places with the same (fake) singular values#
+dat.X1 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,1],#
+	0,#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+# dat.X1_recon <- dat.X1 * dat.X_scale + dat.X_center#
+# expo.scale(dat.X1_recon) / dat.X1#
+#
+dat.X2 <- cbind(	#
+	0,#
+	res$ExPosition.Data$pdq$p[,1],#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X2_recon <- dat.X2 * dat.X_scale + dat.X_center#
+#expo.scale(dat.X2_recon) / dat.X2#
+#
+dat.X3 <- cbind(	#
+	0,#
+	0,#
+	res$ExPosition.Data$pdq$p[,1]#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X3_recon <- dat.X3 * dat.X_scale + dat.X_center#
+XX.res <- simple.pls(dat.X,dat.X)#
+#prettyScree(XX.res$eigs)#
+#
+bs.res <- broken.stick(XX.res$eigs)#
+k.res <- kaiser(XX.res$eigs)#
+boot.res <- boot.comps(dat.X,dat.X,F,F,eigs=XX.res$eigs)#
+perm.between.res <- perm.between.comps(dat.X,dat.X,F,F,eigs=XX.res$eigs)#
+perm.within.res <- perm.within.comps(dat.X,dat.X,F,F,eigs=XX.res$eigs)
+perm.between.res
+XX.res$eigs
+dat.X
+perm.between.res$perm.eigs
+perm.between.res$perm.eigs[,1:3]
+perm.within.res
+perm.between.res
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(beer.tasting.notes)#
+#
+## This is a good example of exactly 1 component.#
+dat.X <- expo.scale(beer.tasting.notes$data)#
+# dat.X_center <- matrix(attributes(dat.X)$`scaled:center`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_scale <- matrix(attributes(dat.X)$`scaled:scale`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_recon <- dat.X * dat.X_scale + dat.X_center#
+res <- epPCA(dat.X,F,F,graphs=F)#
+## Now reconstruct dat.X with exactly 1 underlying source component, but put it in different places with the same (fake) singular values#
+dat.X1 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,1],#
+	0,#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+# dat.X1_recon <- dat.X1 * dat.X_scale + dat.X_center#
+# expo.scale(dat.X1_recon) / dat.X1#
+#
+dat.X2 <- cbind(	#
+	0,#
+	res$ExPosition.Data$pdq$p[,1],#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X2_recon <- dat.X2 * dat.X_scale + dat.X_center#
+#expo.scale(dat.X2_recon) / dat.X2#
+#
+dat.X3 <- cbind(	#
+	0,#
+	0,#
+	res$ExPosition.Data$pdq$p[,1]#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X3_recon <- dat.X3 * dat.X_scale + dat.X_center
+## between data and a single low variance source of itself#
+XX3.res <- simple.pls(dat.X,dat.X3)
+XX3.res
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(beer.tasting.notes)#
+#
+## This is a good example of exactly 1 component.#
+dat.X <- expo.scale(beer.tasting.notes$data)#
+# dat.X_center <- matrix(attributes(dat.X)$`scaled:center`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_scale <- matrix(attributes(dat.X)$`scaled:scale`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_recon <- dat.X * dat.X_scale + dat.X_center#
+res <- epPCA(dat.X,F,F,graphs=F)#
+## Now reconstruct dat.X with exactly 1 underlying source component, but put it in different places with the same (fake) singular values#
+dat.X1 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,1],#
+	0,#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+# dat.X1_recon <- dat.X1 * dat.X_scale + dat.X_center#
+# expo.scale(dat.X1_recon) / dat.X1#
+#
+dat.X2 <- cbind(	#
+	0,#
+	res$ExPosition.Data$pdq$p[,1],#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X2_recon <- dat.X2 * dat.X_scale + dat.X_center#
+#expo.scale(dat.X2_recon) / dat.X2#
+#
+dat.X3 <- cbind(	#
+	0,#
+	0,#
+	res$ExPosition.Data$pdq$p[,1]#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X3_recon <- dat.X3 * dat.X_scale + dat.X_center
+## between data and a single low variance source of itself#
+XX3.res <- simple.pls(dat.X,dat.X3)
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(beer.tasting.notes)#
+#
+## This is a good example of exactly 1 component.#
+dat.X <- expo.scale(beer.tasting.notes$data)#
+# dat.X_center <- matrix(attributes(dat.X)$`scaled:center`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_scale <- matrix(attributes(dat.X)$`scaled:scale`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_recon <- dat.X * dat.X_scale + dat.X_center#
+res <- epPCA(dat.X,F,F,graphs=F)#
+## Now reconstruct dat.X with exactly 1 underlying source component, but put it in different places with the same (fake) singular values#
+dat.X1 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,1],#
+	0,#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+# dat.X1_recon <- dat.X1 * dat.X_scale + dat.X_center#
+# expo.scale(dat.X1_recon) / dat.X1#
+#
+dat.X2 <- cbind(	#
+	0,#
+	res$ExPosition.Data$pdq$p[,1],#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X2_recon <- dat.X2 * dat.X_scale + dat.X_center#
+#expo.scale(dat.X2_recon) / dat.X2#
+#
+dat.X3 <- cbind(	#
+	0,#
+	0,#
+	res$ExPosition.Data$pdq$p[,1]#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X3_recon <- dat.X3 * dat.X_scale + dat.X_center#
+	# ## between data and itself#
+# XX.res <- simple.pls(dat.X,dat.X)	#
+# #prettyScree(XX.res$eigs)#
+# bs.res <- broken.stick(XX.res$eigs)#
+# k.res <- kaiser(XX.res$eigs)#
+# boot.res <- boot.comps(dat.X,dat.X,F,F,eigs=XX.res$eigs)#
+# perm.between.res <- perm.between.comps(dat.X,dat.X,F,F,eigs=XX.res$eigs)#
+# perm.within.res <- perm.within.comps(dat.X,dat.X,F,F,eigs=XX.res$eigs)#
+	## between data and a single low variance source of itself#
+XX3.res <- simple.pls(dat.X,dat.X3)
+XX3.res
+XX3.res$eigs
+t(XX3.res$lx) %*% XX3.res$ly
+XX3.res$d
+bs.res <- broken.stick(XX3.res$eigs)
+k.res <- kaiser(XX3.res$eigs)
+k.res
+bs.res
+boot.res <- boot.comps(dat.X,dat.X3,F,F,eigs=XX3.res$eigs)
+boot.res
+perm.between.res <- perm.between.comps(dat.X,dat.X3,F,F,eigs=XX3.res$eigs)
+perm.between.res
+perm.within.res <- perm.within.comps(dat.X,dat.X3,F,F,eigs=XX3.res$eigs)
+perm.within.res
+dat.X1_3 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,1],#
+	0,#
+	res$ExPosition.Data$pdq$p[,3]#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])
+XX1_3.res <- simple.pls(dat.X,dat.X1_3)	#
+#prettyScree(XX1_3.res$eigs)#
+bs.res <- broken.stick(XX1_3.res$eigs)#
+k.res <- kaiser(XX1_3.res$eigs)#
+boot.res <- boot.comps(dat.X,dat.X1_3,F,F,eigs=XX1_3.res$eigs)#
+perm.between.res <- perm.between.comps(dat.X,dat.X1_3,F,F,eigs=XX1_3.res$eigs)#
+perm.within.res <- perm.within.comps(dat.X,dat.X1_3,F,F,eigs=XX1_3.res$eigs)
+bs.res
+k.res
+boot.res
+perm.between.res
+perm.within.res
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(beer.tasting.notes)#
+#
+## This is a good example of exactly 1 component.#
+dat.X <- expo.scale(beer.tasting.notes$data)#
+# dat.X_center <- matrix(attributes(dat.X)$`scaled:center`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_scale <- matrix(attributes(dat.X)$`scaled:scale`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_recon <- dat.X * dat.X_scale + dat.X_center#
+res <- epPCA(dat.X,F,F,graphs=F)#
+## Now reconstruct dat.X with exactly 1 underlying source component, but put it in different places with the same (fake) singular values#
+dat.X1 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,1],#
+	0,#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+# dat.X1_recon <- dat.X1 * dat.X_scale + dat.X_center#
+# expo.scale(dat.X1_recon) / dat.X1#
+#
+dat.X2 <- cbind(	#
+	0,#
+	res$ExPosition.Data$pdq$p[,1],#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X2_recon <- dat.X2 * dat.X_scale + dat.X_center#
+#expo.scale(dat.X2_recon) / dat.X2#
+#
+dat.X3 <- cbind(	#
+	0,#
+	0,#
+	res$ExPosition.Data$pdq$p[,1]#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X3_recon <- dat.X3 * dat.X_scale + dat.X_center#
+#
+dat.X1_3 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,1],#
+	0,#
+	res$ExPosition.Data$pdq$p[,3]#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+dat.X2_4 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,2],#
+	0,#
+	res$ExPosition.Data$pdq$p[,4]#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])
+X2_4.X1_3.res <- simple.pls(dat.X,dat.X1_3)	#
+#prettyScree(X2_4.X1_3.res$eigs)#
+bs.res <- broken.stick(X2_4.X1_3.res$eigs)#
+k.res <- kaiser(X2_4.X1_3.res$eigs)#
+boot.res <- boot.comps(dat.X,dat.X1_3,F,F,eigs=X2_4.X1_3.res$eigs)#
+perm.between.res <- perm.between.comps(dat.X,dat.X1_3,F,F,eigs=X2_4.X1_3.res$eigs)#
+perm.within.res <- perm.within.comps(dat.X,dat.X1_3,F,F,eigs=X2_4.X1_3.res$eigs)
+bs.res
+k.res
+boot.res
+perm.between.res
+perm.within.res
+prettyPlot(X2_4.X1_3.res$fi)
+prettyPlot(X2_4.X1_3.res$fj)
+X2_4.X1_3.res <- simple.pls(dat.X2_4,dat.X1_3)	#
+#prettyScree(X2_4.X1_3.res$eigs)#
+bs.res <- broken.stick(X2_4.X1_3.res$eigs)#
+k.res <- kaiser(X2_4.X1_3.res$eigs)#
+boot.res <- boot.comps(dat.X,dat.X1_3,F,F,eigs=X2_4.X1_3.res$eigs)#
+perm.between.res <- perm.between.comps(dat.X,dat.X1_3,F,F,eigs=X2_4.X1_3.res$eigs)#
+perm.within.res <- perm.within.comps(dat.X,dat.X1_3,F,F,eigs=X2_4.X1_3.res$eigs)
+X2_4.X1_3.res <- simple.pls(dat.X2_4,dat.X1_3)
+X2_4.X1_3.res
+X2_4.X1_3.res <- simple.pls(dat.X2_4,dat.X1_3)
+boot.res <- boot.comps(dat.X2_4,dat.X1_3,F,F,eigs=X2_4.X1_3.res$eigs)
+boot.res <- boot.comps(dat.X2_4,dat.X1_3,F,F,eigs=NA)
+boot.res
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(beer.tasting.notes)#
+#
+## This is a good example of exactly 1 component.#
+dat.X <- expo.scale(beer.tasting.notes$data)#
+# dat.X_center <- matrix(attributes(dat.X)$`scaled:center`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_scale <- matrix(attributes(dat.X)$`scaled:scale`,nrow(dat.X),ncol(dat.X),byrow=T)#
+# dat.X_recon <- dat.X * dat.X_scale + dat.X_center#
+res <- epPCA(dat.X,F,F,graphs=F)#
+## Now reconstruct dat.X with exactly 1 underlying source component, but put it in different places with the same (fake) singular values#
+dat.X1 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,1],#
+	0,#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+# dat.X1_recon <- dat.X1 * dat.X_scale + dat.X_center#
+# expo.scale(dat.X1_recon) / dat.X1#
+#
+dat.X2 <- cbind(	#
+	0,#
+	res$ExPosition.Data$pdq$p[,1],#
+	0#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X2_recon <- dat.X2 * dat.X_scale + dat.X_center#
+#expo.scale(dat.X2_recon) / dat.X2#
+#
+dat.X3 <- cbind(	#
+	0,#
+	0,#
+	res$ExPosition.Data$pdq$p[,1]#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+#dat.X3_recon <- dat.X3 * dat.X_scale + dat.X_center#
+#
+dat.X1_3 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,1],#
+	0,#
+	res$ExPosition.Data$pdq$p[,3]#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+dat.X2_4 <- cbind(	#
+	res$ExPosition.Data$pdq$p[,2],#
+	0,#
+	res$ExPosition.Data$pdq$p[,4]#
+) %*% diag(c(3,2,1)) %*% t(res$ExPosition.Data$pdq$q[,1:3])#
+	# ## between data and itself#
+# XX.res <- simple.pls(dat.X,dat.X)	#
+# #prettyScree(XX.res$eigs)#
+# bs.res <- broken.stick(XX.res$eigs)#
+# k.res <- kaiser(XX.res$eigs)#
+# boot.res <- boot.comps(dat.X,dat.X,F,F,eigs=XX.res$eigs)#
+# perm.between.res <- perm.between.comps(dat.X,dat.X,F,F,eigs=XX.res$eigs)#
+# perm.within.res <- perm.within.comps(dat.X,dat.X,F,F,eigs=XX.res$eigs)#
+	## between data and a single low variance source of itself#
+# XX3.res <- simple.pls(dat.X,dat.X3)	#
+# #prettyScree(XX3.res$eigs)#
+# #bs.res <- broken.stick(XX3.res$eigs)#
+# #k.res <- kaiser(XX3.res$eigs)#
+# boot.res <- boot.comps(dat.X,dat.X3,F,F,eigs=XX3.res$eigs)#
+# perm.between.res <- perm.between.comps(dat.X,dat.X3,F,F,eigs=XX3.res$eigs)#
+# perm.within.res <- perm.within.comps(dat.X,dat.X3,F,F,eigs=XX3.res$eigs)#
+#
+# XX1_3.res <- simple.pls(dat.X,dat.X1_3)	#
+# #prettyScree(XX1_3.res$eigs)#
+# bs.res <- broken.stick(XX1_3.res$eigs)#
+# k.res <- kaiser(XX1_3.res$eigs)#
+# boot.res <- boot.comps(dat.X,dat.X1_3,F,F,eigs=XX1_3.res$eigs)#
+# perm.between.res <- perm.between.comps(dat.X,dat.X1_3,F,F,eigs=XX1_3.res$eigs)#
+# perm.within.res <- perm.within.comps(dat.X,dat.X1_3,F,F,eigs=XX1_3.res$eigs)#
+	## this completely breaks, which is good because they are completely orthogonal structures.#
+X2_4.X1_3.res <- simple.pls(dat.X2_4,dat.X1_3)	#
+#prettyScree(X2_4.X1_3.res$eigs)#
+#bs.res <- broken.stick(X2_4.X1_3.res$eigs)#
+#k.res <- kaiser(X2_4.X1_3.res$eigs)#
+boot.res <- boot.comps(dat.X2_4,dat.X1_3,F,F,eigs=NA)#
+#perm.between.res <- perm.between.comps(dat.X2_4,dat.X1_3,F,F,eigs=X2_4.X1_3.res$eigs)#
+#perm.within.res <- perm.within.comps(dat.X2_4,dat.X1_3,F,F,eigs=X2_4.X1_3.res$eigs)
+boot.res
+X2_4.X1_3.res
+library(pls)
+?pls
+??pls
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+#
+library(pls)	## to get their example data.#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(yarn)
+yarn
+data(oliveoil)
+oliveoil
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+#
+library(pls)	## to get their example data.#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(oliveoil)#
+#
+X <- oliveoil[,grep("chemical\\.",colnames(oliveoil))]#
+Y <- oliveoil[,grep("sensory\\.",colnames(oliveoil))]
+X
+Y
+grep("chemical\\.",colnames(oliveoil)
+)
+grep("chemical",colnames(oliveoil))
+colnames(oliveoil)
+class(oliveoil)
+oliveoil[,"chemical"]
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+#
+library(pls)	## to get their example data.#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(oliveoil)#
+#
+X <- as.matrix(oliveoil[,"chemical"])#
+Y <- as.matrix(oliveoil[,"sensory"])
+X
+Y
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+#
+library(pls)	## to get their example data.#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(oliveoil)#
+#
+X <- expo.scale(as.matrix(oliveoil[,"chemical"]))#
+Y <- expo.scale(as.matrix(oliveoil[,"sensory"]))
+res <- simple.pls(X,Y)	#
+prettyScree(XX1_3.res$eigs)
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+#
+library(pls)	## to get their example data.#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(oliveoil)#
+#
+X <- expo.scale(as.matrix(oliveoil[,"chemical"]))#
+Y <- expo.scale(as.matrix(oliveoil[,"sensory"]))#
+res <- simple.pls(X,Y)	#
+prettyScree(res$eigs)
+bs.res <- broken.stick(res$eigs)#
+k.res <- kaiser(res$eigs)#
+boot.res <- boot.comps(X,Y,F,F,eigs=res$eigs)#
+perm.between.res <- perm.between.comps(X,Y,F,F,eigs=res$eigs)#
+perm.within.res <- perm.within.comps(X,Y,F,F,eigs=res$eigs)
+bs.res
+k.res
+boot.res
+perm.between.res
+perm.within.res
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+#
+library(pls)	## to get their example data.#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(oliveoil)#
+#
+X <- expo.scale(as.matrix(oliveoil[,"chemical"]))#
+Y <- expo.scale(as.matrix(oliveoil[,"sensory"]))#
+res <- simple.pls(X,Y)
+res$lx
+res$d
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+#
+library(pls)	## to get their example data.#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(oliveoil)#
+#
+X <- expo.scale(as.matrix(oliveoil[,"chemical"]))#
+Y <- expo.scale(as.matrix(oliveoil[,"sensory"]))#
+res <- simple.pls(X,Y)	#
+#
+prettyScree(res$eigs)#
+bs.res <- broken.stick(res$eigs)#
+k.res <- kaiser(res$eigs)#
+boot.res <- boot.comps(X,Y,F,F,eigs=res$eigs)#
+perm.between.res <- perm.between.comps(X,Y,F,F,eigs=res$eigs)#
+perm.within.res <- perm.within.comps(X,Y,F,F,eigs=res$eigs)#
+## now check the regressed version then perform tests on it#
+#for(i in 1:length(res$d)){#
+	i=1
+for(j in 1:ncol(X)){#
+		X.new <- resid(X.new[,j]~lm(res$lx[,i]))#
+	}#
+	for(j in 1:ncol(Y)){#
+		Y.new <- resid(Y.new[,j]~lm(res$ly[,i]))		#
+	}
+cor(X.new,res$lx[,i])
+X.new
+X.new <- X#
+Y.new <- Y
+i=1#
+	for(j in 1:ncol(X)){#
+		X.new <- resid(X.new[,j]~lm(res$lx[,i]))#
+	}
+cor(X.new,res$lx[,i])
+X.new
+X.new <- X
+X
+X.new
+j=1
+resid(X.new[,j]~lm(res$lx[,i]))
+resid(lm(X.new[,j]~res$lx[,i]))
+X.new <- X#
+Y.new <- Y#
+## now check the regressed version then perform tests on it#
+#for(i in 1:length(res$d)){#
+	i=1#
+	for(j in 1:ncol(X)){#
+		X.new[,j] <- resid(lm(X.new[,j]~res$lx[,i]))#
+	}#
+	for(j in 1:ncol(Y)){#
+		Y.new[,j] <- resid(lm(Y.new[,j]~res$ly[,i]))		#
+	}
+X.new
+cor(X.new,res$lx[,1])
+cor(X.new,res$lx)
+cor(Y.new,res$lx)
+cor(Y.new,res$ly)
+reg.res <- simple.pls(X.new,Y.new)
+reg.res$d
+res$d
+cor(reg.res$u,res$u)
+X.new <- X#
+Y.new <- Y#
+## now check the regressed version then perform tests on it#
+#for(i in 1:length(res$d)){#
+	i=1#
+	for(j in 1:ncol(X)){#
+		X.new[,j] <- resid(lm(X.new[,j]~res$lx[,i]:res$ly[,j]))#
+	}#
+	for(j in 1:ncol(Y)){#
+		Y.new[,j] <- resid(lm(Y.new[,j]~res$ly[,i]:res$lx[,j]))		#
+	}
+X.new <- X#
+Y.new <- Y#
+## now check the regressed version then perform tests on it#
+#for(i in 1:length(res$d)){#
+	i=1#
+	for(j in 1:ncol(X)){#
+		X.new[,j] <- resid(lm(X.new[,j]~res$lx[,i]:res$ly[,i]))#
+	}#
+	for(j in 1:ncol(Y)){#
+		Y.new[,j] <- resid(lm(Y.new[,j]~res$ly[,i]:res$lx[,i]))		#
+	}
+reg.res <- simple.pls(X.new,Y.new)
+reg.res$d
+X.new <- t(X)#
+Y.new <- t(Y)#
+## now check the regressed version then perform tests on it#
+#for(i in 1:length(res$d)){#
+	i=1#
+	for(j in 1:ncol(X)){#
+		X.new[,j] <- resid(lm(X.new[,j]~res$u[,i]))#
+	}
+for(j in 1:ncol(Y)){#
+		Y.new[,j] <- resid(lm(Y.new[,j]~res$v[,i]))		#
+	}
+reg.res <- simple.pls(X.new,Y.new)
+reg.res <- simple.pls(t(X.new),t(Y.new))
+reg.res$d
+res$lx[,j] %o% res$u[,j]
+j
+j=1
+res$lx[,j] %o% res$u[,j]
+dim(X)
+X.new <- X#
+Y.new <- Y#
+## now check the regressed version then perform tests on it#
+#for(i in 1:length(res$d)){#
+	i=1#
+	for(j in 1:ncol(X)){#
+		#X.new[,j] <- resid(lm(X.new[,j]~res$u[,i]))#
+		X.new <- X.new - (res$lx[,j] %o% res$u[,j])#
+		print(X.new)#
+	}
+X.new <- X#
+Y.new <- Y#
+## now check the regressed version then perform tests on it#
+#for(i in 1:length(res$d)){#
+	i=1
+j=1
+j=1#
+		#X.new[,j] <- resid(lm(X.new[,j]~res$u[,i]))#
+		X.new <- Y.new - (res$lx[,j] %o% res$u[,j])#
+#
+		#Y.new[,j] <- resid(lm(Y.new[,j]~res$v[,i]))	#
+		Y.new <- Y.new - (res$ly[,j] %o% res$v[,j])		#
+		reg.res <- simple.pls(X.new,Y.new)
+j
+res$ly[,j] %o% res$v[,j]
+Y.new
+X.new <- X#
+Y.new <- Y
+j=1#
+		#X.new[,j] <- resid(lm(X.new[,j]~res$u[,i]))#
+		X.new <- X.new - (res$lx[,j] %o% res$u[,j])#
+#
+		#Y.new[,j] <- resid(lm(Y.new[,j]~res$v[,i]))	#
+		Y.new <- Y.new - (res$ly[,j] %o% res$v[,j])
+reg.res <- simple.pls(X.new,Y.new)
+reg.res$d
+res$d
+res$d[2:6]
+res$d[2:5]
+res$d[2:5] / reg.res$d
+## now check the regressed version then perform tests on it#
+X.new <- X#
+Y.new <- Y#
+for(j in 1:length(res$d)){#
+	X.new <- X.new - (res$lx[,j] %o% res$u[,j])#
+	Y.new <- Y.new - (res$ly[,j] %o% res$v[,j])		#
+	reg.res <- simple.pls(X.new,Y.new)#
+	print(reg.res$d)#
+	pause()#
+	# boot.res <- boot.comps(X,Y,F,F,eigs=res$eigs)#
+	# perm.between.res <- perm.between.comps(X,Y,F,F,eigs=res$eigs)#
+	# perm.within.res <- perm.within.comps(X,Y,F,F,eigs=res$eigs)		#
+}
+length(res$d)
+boot.res$boot.eigs
+boot.res$boot.eigs[,1]
+perm.within.res$perm.eigs[,1]
+perm.between.res$perm.eigs[,1]
+boot.res$boot.eigs[,1]
+## now check the regressed version then perform tests on it#
+X.new <- X#
+Y.new <- Y#
+perm.within_deflate <- perm.between_deflate <- boot.eigs_deflate <- matrix(NA,100,length(res$d))#
+boot.eigs_deflate[,1] <- boot.res$boot.eigs[,1]#
+perm.between_deflate[,1] <- perm.between.res$perm.eigs[,1]#
+perm.within_deflate[,1] <- perm.within.res$perm.eigs[,1]#
+#
+for(j in 1:(length(res$d)-1)){#
+	X.new <- X.new - (res$lx[,j] %o% res$u[,j])#
+	Y.new <- Y.new - (res$ly[,j] %o% res$v[,j])		#
+	# reg.res <- simple.pls(X.new,Y.new)#
+	# print(reg.res$d)#
+	# pause()#
+	boot.eigs_deflate[,(i+1)] <- boot.comps(X,Y,F,F,eigs=res$eigs)$boot.eigs[,1]#
+	perm.between_deflate[,(i+1)] <- perm.between.comps(X,Y,F,F,eigs=res$eigs)$perm.eigs[,1]#
+	perm.within_deflate[,(i+1)] <- perm.within.comps(X,Y,F,F,eigs=res$eigs)$perm.eigs[,1]		#
+}
+boot.eigs_deflate
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+#
+library(pls)	## to get their example data.#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(oliveoil)#
+#
+X <- expo.scale(as.matrix(oliveoil[,"chemical"]))#
+Y <- expo.scale(as.matrix(oliveoil[,"sensory"]))#
+res <- simple.pls(X,Y)	#
+#
+prettyScree(res$eigs)#
+bs.res <- broken.stick(res$eigs)#
+k.res <- kaiser(res$eigs)#
+boot.res <- boot.comps(X,Y,F,F,eigs=res$eigs)#
+perm.between.res <- perm.between.comps(X,Y,F,F,eigs=res$eigs)#
+perm.within.res <- perm.within.comps(X,Y,F,F,eigs=res$eigs)#
+### NOTE: The deflation version is trickier than I thought.#
+	## I had originally assumed I could just regress $lx or $ly from each column in its respective matrix#
+	## I was wrong, and that does not actually account for what I want to take out#
+	## So I have to use the deflation step from PLSR but for each X & Y#
+		## This is going to be insanely expensive.#
+## now check the regressed version then perform tests on it#
+X.new <- X#
+Y.new <- Y#
+perm.within_deflate <- perm.between_deflate <- boot.eigs_deflate <- matrix(NA,100,length(res$d))#
+boot.eigs_deflate[,1] <- boot.res$boot.eigs[,1]#
+perm.between_deflate[,1] <- perm.between.res$perm.eigs[,1]#
+perm.within_deflate[,1] <- perm.within.res$perm.eigs[,1]#
+#
+for(j in 1:(length(res$d)-1)){#
+	X.new <- X.new - (res$lx[,j] %o% res$u[,j])#
+	Y.new <- Y.new - (res$ly[,j] %o% res$v[,j])		#
+	# reg.res <- simple.pls(X.new,Y.new)#
+	# print(reg.res$d)#
+	# pause()#
+	boot.eigs_deflate[,(j+1)] <- boot.comps(X,Y,F,F,eigs=res$eigs)$boot.eigs[,1]#
+	perm.between_deflate[,(j+1)] <- perm.between.comps(X,Y,F,F,eigs=res$eigs)$perm.eigs[,1]#
+	perm.within_deflate[,(j+1)] <- perm.within.comps(X,Y,F,F,eigs=res$eigs)$perm.eigs[,1]		#
+#
+	print(j)#
+}
+boot.eigs_deflate
+perm.between_deflate
+perm.within_deflate
+perm.between_deflate
+perm.between.res$perm.ps
+perm.between.comps
+colSums(perm.between_deflate > matrix(res$eigs,100,ncol(perm.between_deflate),byrow=T)) / 100
+colSums(perm.within_deflate > matrix(res$eigs,100,ncol(perm.within_deflate),byrow=T)) / 100
+colSums(perm.between_deflate > matrix(res$eigs,100,ncol(perm.between_deflate),byrow=T)) / 100
+boot.comps
+colSums(boot.eigs_deflate < matrix(rowMeans(boot.eigs_deflate,na.rm=T),100,ncol(boot.eigs_deflate),byrow=F)) / 100
+boot.res$boot.ps
+boot.eigs_deflate
+boot.res$boot.ps
+colSums(boot.eigs_deflate < matrix(rowMeans(boot.eigs_deflate,na.rm=T),100,ncol(boot.eigs_deflate),byrow=F)) / 100
+boot.comps
+(colMeans(boot.eigs_deflate) / apply(boot.eigs_deflate,2,sd))
+(res$eigs - colMeans(boot.eigs_deflate)) / apply(boot.eigs_deflate,2,sd)
+(colMeans(boot.eigs_deflate) / apply(boot.eigs_deflate,2,sd))
+boot.res$boot.bsrs_from.eigs
+boot.res$boot.bsrs
+k.res
+bs.res
+boot.res$boot.ps
+rm(list=ls())#
+gc()#
+#
+## some fast well understood examples:#
+#
+library(pls)	## to get their example data.#
+library(ExPosition)#
+source('Utilities_PLS_CompTests.R')#
+data(oliveoil)#
+#
+X <- expo.scale(as.matrix(oliveoil[,"chemical"]))#
+Y <- expo.scale(as.matrix(oliveoil[,"sensory"]))#
+res <- simple.pls(X,Y)
+prettyScree(res$eigs)#
+bs.res <- broken.stick(res$eigs)#
+k.res <- kaiser(res$eigs)#
+boot.res <- boot.comps(X,Y,F,F,eigs=res$eigs)
+boot.res
+perm.between.res
+perm.between.res <- perm.between.comps(X,Y,F,F,eigs=res$eigs)#
+perm.within.res <- perm.within.comps(X,Y,F,F,eigs=res$eigs)
+boot.res$boot.eigs
+broken.boot <- apply(boot.res$boot.eigs,1,broken.stick.test)
+broken.boot <- apply(boot.res$boot.eigs,1,broken.stick)
+table(broken.boot)
+broken.boot
+broken.stick(res$eigs)
+broken.stick
+broken.boot <- apply(boot.res$boot.eigs,1,broken.stick)
+dim(broken.boot)
+t(broken.boot)
+colSums(t(broken.boot))
+boot_lower.ci_above.boot.mean <- apply(boot.res$boot.eigs,2,function(x){ sort(x)[inf.iters*.025] }) > mean(res$eigs)#
+boot_lower.ci_above.fixed.mean <- apply(boot.res$boot.eigs,2,function(x){ sort(x)[inf.iters*.025] }) > mean(boot.res$boot.eigs)
+dim(boot.res$boot.eigs)
+nrow(boot.res$boot.eigs)
+boot_lower.ci_above.boot.mean <- apply(boot.res$boot.eigs,2,function(x){ sort(x)[nrow(boot.res$boot.eigs)*.025] }) > mean(res$eigs)#
+boot_lower.ci_above.fixed.mean <- apply(boot.res$boot.eigs,2,function(x){ sort(x)[nrow(boot.res$boot.eigs)*.025] }) > mean(boot.res$boot.eigs)
+boot_lower.ci_above.boot.mean
+boot_lower.ci_above.fixed.mean

@@ -48,9 +48,9 @@ kaiser <- function(eigs){
 boot.comps <- function(X,Y,center=T,scale=T,eigs=NA,k=0,iters=100){
 	
 	if(is.na(eigs)){
-		boot.eigs <-	 matrix(NA,iters,max(c(ncol(X),ncol(Y))))
+		boot.eigs <- matrix(NA,iters,max(c(ncol(X),ncol(Y))))
 	}else{
-		boot.eigs <-	 matrix(NA,iters,length(eigs))
+		boot.eigs <- matrix(NA,iters,length(eigs))
 	}
 	
 	pb <- txtProgressBar(min = 0, max = iters, style = 3)
